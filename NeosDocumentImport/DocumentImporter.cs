@@ -6,7 +6,7 @@ using System;
 
 namespace NeosDocumentImport
 {
-    class DocumentImporter
+    public class DocumentImporter
     {
         public static void UpdateProgress(IProgressIndicator progress, string file, int iPage, int nPages)
         {

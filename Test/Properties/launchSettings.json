@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NeosVR": {
+      "commandName": "Executable",
+      "executablePath": "%NeosPath%\\Neos.exe",
+      "commandLineArgs": " -Verbose -Screen -LoadAssembly Libraries\\NeosModLoader.dll -CachePath \"C:\\NeosCache\"",
+      "workingDirectory": "%NeosPath%"
+    }
+  }
+}

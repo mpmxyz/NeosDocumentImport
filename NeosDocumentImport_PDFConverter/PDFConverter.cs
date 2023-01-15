@@ -1,15 +1,13 @@
-﻿
-using BaseX;
-using Docnet.Core.Models;
+﻿using BaseX;
 using Docnet.Core;
+using Docnet.Core.Converters;
+using Docnet.Core.Models;
+using Docnet.Core.Readers;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using Docnet.Core.Converters;
-using Docnet.Core.Readers;
-using System.Drawing;
 using System.Runtime.InteropServices;
-using NeosDocumentImport;
 
 namespace NeosDocumentImport
 {

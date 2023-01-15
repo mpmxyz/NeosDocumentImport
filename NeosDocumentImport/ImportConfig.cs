@@ -1,6 +1,4 @@
-﻿using NeosDocumentImport;
-using System.Collections.Generic;
-//using Ghostscript.NET.Rasterizer;
+﻿using System.Collections.Generic;
 
 namespace NeosDocumentImport
 {

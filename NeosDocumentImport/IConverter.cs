@@ -28,7 +28,7 @@ namespace NeosDocumentImport
             var extension = Path.GetExtension(file).ToLower();
             UniLog.Log($"{assetClass} {file} {extension}");
             UniLog.Log($"{converters}");
-            return converters.GetValueOrDefault((assetClass, extension), null);
+            return converters.TryGetValue((assetClass, extension), out var converter) ? converter : null;
         }
     }
 }

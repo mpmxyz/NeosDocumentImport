@@ -3,29 +3,22 @@ using CodeX;
 using FrooxEngine;
 using HarmonyLib;
 using NeosModLoader;
-using NeosDocumentImport;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
-    public class NeosDocumentImport : NeosMod
+    public class NeosDocumentImportMod : NeosMod
     {
         public override string Name => "NeosDocumentImport";
         public override string Author => "mpmxyz";
         public override string Version => "1.0.0";
-        public override string Link => "https://github.com/mpmxyz/RepoName/"; //TODO
+        public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
             Harmony harmony = new Harmony("com.github.mpmxyz.documentimport");
             harmony.PatchAll();
-            Converters.Register(new PDFConverter(), AssetClass.Document, ".pdf");
-            Converters.Register(new SVGConverter(), AssetClass.Unknown, ".svg", "svgz");
-            var htmlConverter = new HTMLConverter();
-            Converters.Register(htmlConverter, AssetClass.Text, ".html", ".xhtml", ".htm", ".xht");
-            Converters.Register(htmlConverter, AssetClass.Unknown, "");
         }
 
 
