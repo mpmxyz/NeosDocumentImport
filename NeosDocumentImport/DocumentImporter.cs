@@ -8,25 +8,28 @@ namespace NeosDocumentImport
 {
     public class DocumentImporter
     {
-        public static void UpdateProgress(IProgressIndicator progress, string file, int iPage, int nPages)
+        public static void UpdateProgress(IProgressIndicator progress, string name, float percent, string details)
         {
-            float percent = (float)iPage / nPages;
-            progress?.UpdateProgress(percent, $"Converting {file}", $"{iPage}/{nPages}");
+            progress?.UpdateProgress(percent, $"Converting {name}", details);
         }
 
-        public static void Spawn(IEnumerable<string> files, IConverter converter, ImportConfig config, World world, float3 position, floatQ rotation)
+        public static void Spawn(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation)
         {
-            var slot = world.AddSlot("PDF Converter", false);
+            var slot = world.AddSlot("File Converter", false);
             var progress = slot.AttachComponent<NeosLogoMenuProgress>();
             progress.Spawn(position, 0.05f, true);
 
             world.RunInBackground(() =>
             {
-                Import(files, converter, config, world, slot, progress);
+                Import(files, converter, world, position, rotation, progress);
+                world.RunSynchronously(() =>
+                {
+                    slot.Destroy();
+                });
             });
         }
 
-        private static void Import(IEnumerable<string> files, IConverter converter, ImportConfig config, World world, Slot slot, NeosLogoMenuProgress progress)
+        private static void Import(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
         {
             var localDb = world.Engine.LocalDB;
             var imageDirs = new List<string>();
@@ -37,13 +40,18 @@ namespace NeosDocumentImport
                 var dir = localDb.GetTempFilePath();
                 var prefix = Path.GetFileNameWithoutExtension(file);
                 imageDirs.Add(dir);
-
+                
                 try
                 {
-                    var pages = converter.Apply(file, dir, prefix, config, progress);
+                    Directory.CreateDirectory(dir);
+                    var pages = converter.Apply(file, dir, prefix, progress);
                     world.RunSynchronously(() =>
                     {
-                        BatchFolderImporter.BatchImport(slot.AddSlot(filename), pages);
+                        var slot = world.AddSlot(filename, false);
+                        slot.GlobalPosition = position;
+                        slot.GlobalRotation = rotation;
+
+                        BatchFolderImporter.BatchImport(slot, pages); //destroys slot
                     });
                 }
                 catch (Exception e)
@@ -54,11 +62,6 @@ namespace NeosDocumentImport
                     throw e;
                 }
             }
-
-            world.RunSynchronously(() =>
-            {
-                progress.Slot.Destroy();
-            });
         }
     }
 }

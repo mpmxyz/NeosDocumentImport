@@ -53,14 +53,16 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing">
     </Reference>
+    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe" />
     <Reference Include="System.ValueTuple" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters.cs" />
     <Compile Include="IConverter.cs" />
+    <Compile Include="ImportUtils.cs" />
     <Compile Include="PageRange.cs" />
-    <Compile Include="ImportConfig.cs" />
     <Compile Include="ImportConfigurator.cs" />
     <Compile Include="NeosDocumentImportMod.cs" />
     <Compile Include="DocumentImporter.cs" />

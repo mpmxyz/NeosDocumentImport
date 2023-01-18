@@ -11,7 +11,7 @@ namespace NeosDocumentImport
         public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
-            Converters.Register(new PDFConverter(), AssetClass.Document, ".pdf");
+            Converters.Register((world) => new PDFConverter(world), AssetClass.Document, ".pdf");
         }
     }
 }

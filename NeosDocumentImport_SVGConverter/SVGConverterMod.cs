@@ -11,7 +11,7 @@ namespace NeosDocumentImport
         public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
-            Converters.Register(new SVGConverter(), AssetClass.Unknown, ".svg", "svgz");
+            Converters.Register((world) => new SVGConverter(world), AssetClass.Unknown, ".svg", "svgz");
         }
     }
 }

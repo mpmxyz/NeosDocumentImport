@@ -1,34 +1,30 @@
 ﻿using BaseX;
-using CodeX;
+using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace NeosDocumentImport
 {
-    public interface IConverter
+    public enum ConfigType
     {
-        List<string> Apply(string file, string outputDir, string pagePrefix, ImportConfig config, IProgressIndicator progress);
+        Value,
+        Reference
     }
 
-    public static class Converters
+    [AttributeUsage(System.AttributeTargets.Field)]
+    public class ConfigAttribute : Attribute
     {
-        private static readonly Dictionary<(AssetClass, string), IConverter> converters =
-    new Dictionary<(AssetClass, string), IConverter>();
+        public readonly string name;
+        public readonly ConfigType type;
 
-        public static void Register(IConverter converter, AssetClass assetClass, params string[] extensions)
+        public ConfigAttribute(string name, ConfigType type)
         {
-            foreach (var extension in extensions)
-            {
-                converters.Add((assetClass, extension), converter);
-            }
+            this.name = name;
+            this.type = type;
         }
-
-        public static IConverter Get(AssetClass assetClass, string file)
-        {
-            var extension = Path.GetExtension(file).ToLower();
-            UniLog.Log($"{assetClass} {file} {extension}");
-            UniLog.Log($"{converters}");
-            return converters.TryGetValue((assetClass, extension), out var converter) ? converter : null;
-        }
+    }
+    public interface IConverter
+    {
+        bool ValidateConfig();
+        List<string> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress);
     }
 }

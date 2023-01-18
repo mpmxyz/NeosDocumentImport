@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseX;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -62,6 +63,70 @@ namespace NeosDocumentImport
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public static List<PageRange> fromString(string pageString)
+        {
+            var pages = new List<PageRange>();
+            if (pageString == null)
+            {
+                //null => no selection
+                return pages;
+            }
+
+            pageString = pageString.RemoveWhitespace();
+
+            if (pageString.Length == 0)
+            {
+                //empty string => no selection
+                return pages;
+            }
+
+            foreach (var segment in pageString.Split(','))
+            {
+                var numbers = segment.Split('-');
+
+                switch (numbers.Length)
+                {
+                    case 1:
+                        if (int.TryParse(numbers[0], out int x))
+                        {
+                            pages.Add(new PageRange(x));
+                        }
+                        else
+                        {
+                            //parsing failed
+                            return null;
+                        }
+
+                        break;
+                    case 2:
+                        if (int.TryParse(numbers[0], out int a)
+                            && int.TryParse(numbers[1], out int b))
+                        {
+                            var range = new PageRange(a, b);
+
+                            if (range.Count > 9999)
+                            {
+                                //hard limit # of generated files to prevent endless lockup of Neos
+                                return null;
+                            }
+
+                            pages.Add(range);
+                        }
+                        else
+                        {
+                            //parsing failed
+                            return null;
+                        }
+
+                        break;
+                    default:
+                        //too many minus signs
+                        return null;
+                }
+            }
+            return pages;
         }
     }
 }

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="BaseX" />
     <Reference Include="CodeX" />
+    <Reference Include="FrooxEngine, Version=2022.1.28.1310, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="NeosModLoader" />
     <Reference Include="System" />
     <Reference Include="System.Core" />

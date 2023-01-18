@@ -27,7 +27,7 @@ namespace NeosDocumentImport
         {
             public static bool Prefix(ref Task __result, AssetClass assetClass, ref IEnumerable<string> files, World world, float3 position, floatQ rotation, float3 scale, bool silent = false)
             {
-                var appliedConverters = files.GroupBy((file) => Converters.Get(assetClass, file));
+                var appliedConverters = files.GroupBy((file) => Converters.Get(assetClass, file, world));
                 files = new List<string>();
                 
                 foreach (var converterFiles in appliedConverters)
@@ -35,7 +35,7 @@ namespace NeosDocumentImport
                     var converter = converterFiles.Key;
                     if (converter != null)
                     {
-                        ImportConfigurator.Spawn(converterFiles, world, position, rotation, scale, DocumentImporter.Spawn, converter);
+                        ImportConfigurator.Spawn(converterFiles, world, position, rotation, scale, converter);
                     }
                     else
                     {
