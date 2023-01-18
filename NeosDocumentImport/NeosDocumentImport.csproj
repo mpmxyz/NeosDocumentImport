@@ -9,7 +9,8 @@
     <RootNamespace>NeosDocumentImport</RootNamespace>
     <AssemblyName>NeosDocumentImport</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+	<TargetFramework>net462</TargetFramework>
+	<FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <ProjectGuid>{0322B2EF-7452-479D-BAE2-FCAB75033337}</ProjectGuid>
