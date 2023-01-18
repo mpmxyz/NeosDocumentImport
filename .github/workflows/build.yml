@@ -1,0 +1,52 @@
+name: Build/Release
+on: [push, pull_request]
+
+env:
+  NeosPath: "${{ github.workspace }}/neos_install/" #see neos-modding-group/neos-plugin-setup-action
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout project
+        uses: actions/checkout@v3
+      - name: setup build environment
+        uses: neos-modding-group/neos-plugin-setup-action@master
+        #TODO: check for possible caching of neos build env
+      - name: lint
+        run: dotnet format --verbosity detailed --verify-no-changes ./NeosModLoader.sln
+      - name: build binaries, create release directory structure
+        run: |
+          dotnet build ./NeosDocumentImport.sln --configuration Release
+          mkdir ./release
+          mkdir ./release/nml_mods
+          mkdir ./release/nml_libs
+          
+          mv ./NeosDocumentImport/bin/Release/NeosDocumentImport.dll ./release/nml_mods/NeosDocumentImport.dll
+          
+          mv ./NeosDocumentImport_HTMLConverter/bin/Release/NeosDocumentImport_HTMLConverter.dll ./release/nml_mods/NeosDocumentImport_HTMLConverter.dll
+          mv ./NeosDocumentImport_HTMLConverter/bin/Release/PuppeteerSharp.dll ./release/nml_libs/PuppeteerSharp.dll
+          
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/NeosDocumentImport_PDFConverter.dll ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/pdfium.dll ./release/pdfium.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/Docnet.Core.dll ./release/nml_libs/Docnet.Core.dll
+          
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/NeosDocumentImport_SVGConverter.dll ./release/nml_mods/NeosDocumentImport_SVGConverter.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/ExCSS.dll ./release/nml_libs/ExCSS.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/Fizzler.dll ./release/nml_libs/Fizzler.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/Svg.dll ./release/nml_libs/Svg.dll
+          
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.0
+        with:
+          type: 'zip'
+          filename: 'NeosDocumentImport.zip'
+          path: './release'
+      - name: upload artifacts
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master' # only publish workflow artifacts for pushes to master or tags
+        uses: actions/upload-artifact@v3
+        with:
+          name: NeosDocumentImport
+          path: |
+            ./NeosDocumentImport.zip
+          if-no-files-found: error
