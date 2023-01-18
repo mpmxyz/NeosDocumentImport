@@ -5,8 +5,10 @@ A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https
 ## Installation
 1. Install [NeosModLoader](https://github.com/zkxs/NeosModLoader).
 2. Download & unpack [NeosDocumentImport.zip](https://github.com/GithubUsername/RepoName/releases/latest/download/NeosDocumentImport.zip)
-4. Copy the unpacked contents into your Neos install directory. (containing Neos.exe, NOT the launcher)
+3. Copy the unpacked contents into your Neos install directory. (containing Neos.exe, NOT the launcher)
 It should be at `C:\Program Files (x86)\Steam\steamapps\common\NeosVR\` for a default install.
+4. Start the game. If you want to verify that the mod is working you can check your Neos logs.
+
 To selectively install features refer to the following tables:
 
 ### Required
@@ -34,5 +36,4 @@ To selectively install features refer to the following tables:
 |----|-------|
 |nml_mods/NeosDocumentImport_HTMLImporter.dll|nml_mods/|
 |nml_libs/PuppeteerSharp.dll|nml_libs/|
-
-5. Start the game. If you want to verify that the mod is working you can check your Neos logs.
+Note: Puppeteer downloads and executes Chrome in the background to work.
