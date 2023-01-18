@@ -37,8 +37,8 @@ namespace NeosDocumentImport
                 svgDoc = SvgDocument.Open<SvgDocument>(stream);
             }
 
-            DocumentImporter.UpdateProgress(progress, filename, 1f/3, "Rendering...");
-            using(var image = svgDoc.Draw(width, 0)) //height=0 or width=0 keeps aspect ratio
+            DocumentImporter.UpdateProgress(progress, filename, 1f / 3, "Rendering...");
+            using (var image = svgDoc.Draw(width, 0)) //height=0 or width=0 keeps aspect ratio
             {
 
                 var outputFile = Path.Combine(outputDir, $"{pagePrefix}.png");

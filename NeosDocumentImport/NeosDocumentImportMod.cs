@@ -29,7 +29,7 @@ namespace NeosDocumentImport
             {
                 var appliedConverters = files.GroupBy((file) => Converters.Get(assetClass, file, world));
                 files = new List<string>();
-                
+
                 foreach (var converterFiles in appliedConverters)
                 {
                     var converter = converterFiles.Key;

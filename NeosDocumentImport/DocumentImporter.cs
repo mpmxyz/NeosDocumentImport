@@ -40,7 +40,7 @@ namespace NeosDocumentImport
                 var dir = localDb.GetTempFilePath();
                 var prefix = Path.GetFileNameWithoutExtension(file);
                 imageDirs.Add(dir);
-                
+
                 try
                 {
                     Directory.CreateDirectory(dir);

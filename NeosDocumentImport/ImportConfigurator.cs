@@ -13,14 +13,14 @@ namespace NeosDocumentImport
         private static IField BuildValue<T>(Slot slot, object obj, FieldInfo prop)
         {
             var value = slot.AttachComponent<ValueField<T>>().Value;
-            value.Value = (T) prop.GetValue(obj);
+            value.Value = (T)prop.GetValue(obj);
             value.OnValueChange += (x) => { prop.SetValue(obj, x.Value); };
             return value;
         }
         private static IField BuildReference<T>(Slot slot, object obj, FieldInfo prop) where T : class, IWorldElement
         {
             var value = slot.AttachComponent<ReferenceField<T>>().Reference;
-            value.Target = (T) prop.GetValue(obj);
+            value.Target = (T)prop.GetValue(obj);
             value.OnReferenceChange += (x) => { prop.SetValue(obj, x.Target); };
             return value;
         }
@@ -73,7 +73,7 @@ namespace NeosDocumentImport
                             .GetGenericMethod(nameof(ImportConfigurator.BuildReference), BindingFlags.NonPublic | BindingFlags.Static, propType);
                                 break;
                         }
-                        var ifield = (IField) buildSpecificField.Invoke(null, new object[] { slot, converter, prop });
+                        var ifield = (IField)buildSpecificField.Invoke(null, new object[] { slot, converter, prop });
 
                         SyncMemberEditorBuilder.Build(ifield, conf.name, prop, uiBuilder);
                         break;
@@ -86,7 +86,7 @@ namespace NeosDocumentImport
             uiBuilder.Style.FlexibleHeight = -1;
             uiBuilder.Style.MinHeight = 24;
 
-            var trigger = uiBuilder.Button((LocaleString) "Import!");
+            var trigger = uiBuilder.Button((LocaleString)"Import!");
             trigger.LocalPressed += (button, data) =>
             {
                 if (converter.ValidateConfig())

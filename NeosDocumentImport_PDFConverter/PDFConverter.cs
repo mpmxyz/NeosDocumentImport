@@ -42,7 +42,7 @@ namespace NeosDocumentImport
         public List<string> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress)
         {
             var filename = Path.GetFileName(file);
-            
+
             DocumentImporter.UpdateProgress(progress, filename, 0, "Loading File...");
 
             var data = ImportUtils.LoadData(file, world);
