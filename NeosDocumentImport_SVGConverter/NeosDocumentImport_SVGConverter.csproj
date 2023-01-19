@@ -1,75 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{91255C2B-7187-4A30-B986-1E879ABA2567}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NeosDocumentImport_SVGConverter</RootNamespace>
-    <AssemblyName>NeosDocumentImport_SVGConverter</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyTitle>NeosDocumentImport_SVGConverter</AssemblyTitle>
+    <Product>NeosDocumentImport_SVGConverter</Product>
+    <Copyright>Copyright ©  2023</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
+copy "ExCSS.dll" "$(NeosPath)\nml_libs\"
+copy "Fizzler.dll" "$(NeosPath)\nml_libs\"
+copy "Svg.dll" "$(NeosPath)\nml_libs\"
+    </PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeosDocumentImport\NeosDocumentImport.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Svg" Version="3.4.4" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="BaseX">
-      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(NeosPath)\Neos_Data\Managed\BaseX.dll</HintPath>
     </Reference>
-    <Reference Include="CodeX" />
-    <Reference Include="FrooxEngine, Version=2022.1.28.1310, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="CodeX">
+      <HintPath>$(NeosPath)\Neos_Data\Managed\CodeX.dll</HintPath>
+    </Reference>
+    <Reference Include="FrooxEngine">
+      <HintPath>$(NeosPath)\Neos_Data\Managed\FrooxEngine.dll</HintPath>
+    </Reference>
     <Reference Include="NeosModLoader">
+      <HintPath>$(NeosPath)\Libraries\NeosModLoader.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SVGConverter.cs" />
-    <Compile Include="SVGConverterMod.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NeosDocumentImport\NeosDocumentImport.csproj">
-      <Project>{0322b2ef-7452-479d-bae2-fcab75033337}</Project>
-      <Name>NeosDocumentImport</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Svg">
-      <Version>3.4.4</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)\$(TargetFileName)" "$(NeosPath)\nml_mods\"
-copy "$(TargetDir)\ExCSS.dll" "$(NeosPath)\nml_libs\"
-copy "$(TargetDir)\Fizzler.dll" "$(NeosPath)\nml_libs\"
-copy "$(TargetDir)\Svg.dll" "$(NeosPath)\nml_libs\"</PostBuildEvent>
-  </PropertyGroup>
 </Project>
