@@ -13,6 +13,11 @@ jobs:
       - name: setup build environment
         uses: neos-modding-group/neos-plugin-setup-action@master
         #TODO: check for possible caching of neos build env
+      - name: download NeosModLoader and Harmony
+        run: |
+          mkdir -p "$(NeosPath)/nml_libs" "$(NeosPath)/Libraries"
+          cd "$(NeosPath)/nml_libs" && wget "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/0Harmony.dll"
+          cd "$(NeosPath)/Libraries" && wget "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/NeosModLoader.dll"
       - name: lint
         run: dotnet format --verbosity detailed --verify-no-changes ./NeosDocumentImport.sln
       - name: build binaries, create release directory structure
