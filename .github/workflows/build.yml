@@ -28,19 +28,19 @@ jobs:
           mkdir ./release/nml_mods
           mkdir ./release/nml_libs
           
-          mv ./NeosDocumentImport/bin/Release/NeosDocumentImport.dll ./release/nml_mods/NeosDocumentImport.dll
+          mv ./NeosDocumentImport/bin/Release/net462/NeosDocumentImport.dll ./release/nml_mods/NeosDocumentImport.dll
           
-          mv ./NeosDocumentImport_HTMLConverter/bin/Release/NeosDocumentImport_HTMLConverter.dll ./release/nml_mods/NeosDocumentImport_HTMLConverter.dll
-          mv ./NeosDocumentImport_HTMLConverter/bin/Release/PuppeteerSharp.dll ./release/nml_libs/PuppeteerSharp.dll
+          mv ./NeosDocumentImport_HTMLConverter/bin/Release/net462/NeosDocumentImport_HTMLConverter.dll ./release/nml_mods/NeosDocumentImport_HTMLConverter.dll
+          mv ./NeosDocumentImport_HTMLConverter/bin/Release/net462/PuppeteerSharp.dll ./release/nml_libs/PuppeteerSharp.dll
           
-          mv ./NeosDocumentImport_PDFConverter/bin/Release/NeosDocumentImport_PDFConverter.dll ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
-          mv ./NeosDocumentImport_PDFConverter/bin/Release/pdfium.dll ./release/pdfium.dll
-          mv ./NeosDocumentImport_PDFConverter/bin/Release/Docnet.Core.dll ./release/nml_libs/Docnet.Core.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/NeosDocumentImport_PDFConverter.dll ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/pdfium.dll ./release/pdfium.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/Docnet.Core.dll ./release/nml_libs/Docnet.Core.dll
           
-          mv ./NeosDocumentImport_SVGConverter/bin/Release/NeosDocumentImport_SVGConverter.dll ./release/nml_mods/NeosDocumentImport_SVGConverter.dll
-          mv ./NeosDocumentImport_SVGConverter/bin/Release/ExCSS.dll ./release/nml_libs/ExCSS.dll
-          mv ./NeosDocumentImport_SVGConverter/bin/Release/Fizzler.dll ./release/nml_libs/Fizzler.dll
-          mv ./NeosDocumentImport_SVGConverter/bin/Release/Svg.dll ./release/nml_libs/Svg.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/NeosDocumentImport_SVGConverter.dll ./release/nml_mods/NeosDocumentImport_SVGConverter.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/ExCSS.dll ./release/nml_libs/ExCSS.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/Fizzler.dll ./release/nml_libs/Fizzler.dll
+          mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/Svg.dll ./release/nml_libs/Svg.dll
           
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.0
