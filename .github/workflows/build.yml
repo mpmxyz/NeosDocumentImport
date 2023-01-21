@@ -24,6 +24,8 @@ jobs:
       - name: build binaries, create release directory structure
         run: |
           dotnet build ./NeosDocumentImport.sln --configuration Release
+          ls .
+          ls ./NeosDocumentImport
           mkdir ./release
           mkdir ./release/nml_mods
           mkdir ./release/nml_libs
