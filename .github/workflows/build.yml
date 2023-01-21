@@ -25,7 +25,7 @@ jobs:
         run: |
           dotnet build ./NeosDocumentImport.sln --configuration Release
           ls .
-          ls ./NeosDocumentImport
+          ls ./NeosDocumentImport_PDFConverter/bin/Release/net462
           mkdir ./release
           mkdir ./release/nml_mods
           mkdir ./release/nml_libs
