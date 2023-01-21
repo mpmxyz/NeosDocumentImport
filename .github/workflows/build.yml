@@ -23,9 +23,9 @@ jobs:
         run: dotnet format --verbosity detailed --verify-no-changes ./NeosDocumentImport.sln
       - name: build binaries, create release directory structure
         run: |
+          #TODO: make it compile windows libraries
           dotnet build ./NeosDocumentImport.sln --configuration Release
-          ls .
-          ls ./NeosDocumentImport_PDFConverter/bin/Release/net462
+
           mkdir ./release
           mkdir ./release/nml_mods
           mkdir ./release/nml_libs
