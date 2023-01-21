@@ -15,7 +15,7 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(BUILD_TYPE)' != 'CICD' ">
     <PostBuildEvent>
 copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
 copy "ExCSS.dll" "$(NeosPath)\nml_libs\"
