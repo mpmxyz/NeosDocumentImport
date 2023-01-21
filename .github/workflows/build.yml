@@ -3,6 +3,7 @@ on: [push, pull_request]
 
 env:
   NeosPath: "${{ github.workspace }}/neos_install/" #see neos-modding-group/neos-plugin-setup-action
+  BUILD_TYPE: "CICD"
 
 jobs:
   build:
