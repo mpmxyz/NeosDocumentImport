@@ -5,6 +5,7 @@
     <Product>NeosDocumentImport</Product>
     <Copyright>Copyright ©  2021</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -15,8 +16,10 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"</PostBuildEvent>
+  <PropertyGroup Condition=" '$(BUILD_TYPE)' != 'CICD' ">
+    <PostBuildEvent>
+copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
+    </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">

@@ -5,6 +5,7 @@
     <Product>NeosDocumentImport_HTMLConverter</Product>
     <Copyright>Copyright ©  2023</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -15,7 +16,7 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(BUILD_TYPE)' != 'CICD' ">
     <PostBuildEvent>
 copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
 copy "PuppeteerSharp.dll" "$(NeosPath)\nml_libs"
