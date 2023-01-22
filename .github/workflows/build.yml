@@ -50,7 +50,7 @@ jobs:
           filename: 'NeosDocumentImport.zip'
           path: './release'
       - name: upload artifacts
-        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/master' # only publish workflow artifacts for pushes to master or tags
+        if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' # only publish workflow artifacts for pushes to main or tags
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport
