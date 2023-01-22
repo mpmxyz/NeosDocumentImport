@@ -37,3 +37,17 @@ To selectively install features refer to the following tables:
 |nml_mods/NeosDocumentImport_HTMLImporter.dll|nml_mods/|
 |nml_libs/PuppeteerSharp.dll|nml_libs/|
 Note: Puppeteer downloads and executes Chrome in the background to work.
+
+## Usage
+Just paste or drag&drop the files into Neos. An import dialog allows you to adjust the resolution and a few other settings.
+
+![PDF import dialog](pictures/config_pdf.jpg)
+
+|Setting|Description|Default|
+|---|---|---|
+|PPI|pixels per inch|150|
+|Background|disable to render with transparent background|enabled|
+|Pages|comma separated list of pages numbers, "1-3"="1,2,3"|empty (all pages)|
+
+![HTML import dialog](pictures/config_html.jpg)
+![SVG import dialog](pictures/config_svg.jpg)
