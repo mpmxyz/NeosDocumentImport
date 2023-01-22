@@ -1,6 +1,9 @@
 name: Build/Release
 on: [push, pull_request]
 
+permissions:
+  contents: write
+
 env:
   NeosPath: "${{ github.workspace }}/neos_install/" #see neos-modding-group/neos-plugin-setup-action
   BUILD_TYPE: "CICD"
@@ -62,5 +65,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: ./release/NeosDocumentImport.zip
+          files: |
+            ./release/NeosDocumentImport.zip
           draft: true
