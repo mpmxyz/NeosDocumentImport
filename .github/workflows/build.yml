@@ -23,7 +23,7 @@ jobs:
         run: dotnet format --verbosity detailed --verify-no-changes ./NeosDocumentImport.sln
       - name: build binaries, create release directory structure
         run: |
-          dotnet build ./NeosDocumentImport.sln --configuration Release --runtime win-x64
+          dotnet build ./NeosDocumentImport.sln --configuration Release
 
           mkdir ./release
           mkdir ./release/nml_mods
