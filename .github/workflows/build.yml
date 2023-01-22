@@ -9,19 +9,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout project
+      - name: Checkout project
         uses: actions/checkout@v3
-      - name: setup build environment
+      - name: Setup build environment
         uses: neos-modding-group/neos-plugin-setup-action@master
         #TODO: check for possible caching of neos build env
-      - name: download NeosModLoader and Harmony
+      - name: Download NeosModLoader and Harmony
         run: |
           mkdir -p "${NeosPath}/nml_libs" "${NeosPath}/Libraries"
           cd "${NeosPath}/nml_libs" && wget "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/0Harmony.dll"
           cd "${NeosPath}/Libraries" && wget "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/NeosModLoader.dll"
-      - name: lint
+      - name: Lint
         run: dotnet format --verbosity detailed --verify-no-changes ./NeosDocumentImport.sln
-      - name: build binaries, create release directory structure
+      - name: Build binaries, create release directory structure
         run: |
           dotnet build ./NeosDocumentImport.sln --configuration Release
 
@@ -50,7 +50,7 @@ jobs:
           filename: 'NeosDocumentImport.zip'
           path: '.'
           directory: './release'
-      - name: upload artifacts
+      - name: Upload artifacts
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' # only publish workflow artifacts for pushes to main or tags
         uses: actions/upload-artifact@v3
         with:
@@ -58,3 +58,9 @@ jobs:
           path: |
             ./release/NeosDocumentImport.zip
           if-no-files-found: error
+      - name: Create release draft
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./release/NeosDocumentImport.zip
+          draft: true
