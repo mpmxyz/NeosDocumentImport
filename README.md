@@ -4,7 +4,7 @@ A [NeosModLoader](https://github.com/zkxs/NeosModLoader) mod for [Neos VR](https
 
 ## Installation
 1. Install [NeosModLoader](https://github.com/zkxs/NeosModLoader).
-2. Download & unpack [NeosDocumentImport.zip](https://github.com/GithubUsername/RepoName/releases/latest/download/NeosDocumentImport.zip)
+2. Download & unpack [NeosDocumentImport.zip](https://github.com/mpmxyz/NeosDocumentImport/releases/latest/download/NeosDocumentImport.zip)
 3. Copy the unpacked contents into your Neos install directory. (containing Neos.exe, NOT the launcher)
 It should be at `C:\Program Files (x86)\Steam\steamapps\common\NeosVR\` for a default install.
 4. Start the game. If you want to verify that the mod is working you can check your Neos logs.
