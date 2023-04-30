@@ -34,9 +34,6 @@ jobs:
           
           mv ./NeosDocumentImport/bin/Release/net462/win-x64/NeosDocumentImport.dll ./release/nml_mods/NeosDocumentImport.dll
           
-          mv ./NeosDocumentImport_HTMLConverter/bin/Release/net462/win-x64/NeosDocumentImport_HTMLConverter.dll ./release/nml_mods/NeosDocumentImport_HTMLConverter.dll
-          mv ./NeosDocumentImport_HTMLConverter/bin/Release/net462/win-x64/PuppeteerSharp.dll ./release/nml_libs/PuppeteerSharp.dll
-          
           mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/NeosDocumentImport_PDFConverter.dll ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
           mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/pdfium.dll ./release/pdfium.dll
           mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/Docnet.Core.dll ./release/nml_libs/Docnet.Core.dll
