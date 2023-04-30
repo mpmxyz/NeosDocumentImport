@@ -45,6 +45,8 @@ jobs:
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/Svg.dll ./release/nml_libs/Svg.dll
           
           sha256sum ./release/*.dll ./release/*/*.dll
+          
+          echo "${UPLOAD_ARTIFACTS}"
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.0
         with:
