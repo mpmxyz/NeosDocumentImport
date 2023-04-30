@@ -1,4 +1,5 @@
-﻿using CodeX;
+﻿using BaseX;
+using CodeX;
 using FrooxEngine;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,11 @@ namespace NeosDocumentImport
             }
         }
 
-        public static IConverter Get(AssetClass assetClass, string file, World world)
+        public static Func<World, IConverter> GetFactory(AssetClass assetClass, string file)
         {
-            var extension = Path.GetExtension(file).ToLower();
-            return factories.TryGetValue((assetClass, extension), out var factory) ? factory(world) : null;
+            var extension = Path.GetExtension(file).Replace(".", "").ToLower();
+            UniLog.Log($"assetClass: {assetClass}, ext: {extension}");
+            return factories.TryGetValue((assetClass, extension), out var factory) ? factory : null;
         }
     }
 }

@@ -21,21 +21,33 @@ namespace NeosDocumentImport
             harmony.PatchAll();
         }
 
+        public static bool skipNext = false;
 
         [HarmonyPatch(typeof(UniversalImporter), "ImportTask")]
-        class NeosPDFImportPatch
+        class ImportTaskPatch
         {
             public static bool Prefix(ref Task __result, AssetClass assetClass, ref IEnumerable<string> files, World world, float3 position, floatQ rotation, float3 scale, bool silent = false)
             {
-                var appliedConverters = files.GroupBy((file) => Converters.Get(assetClass, file, world));
+                UniLog.Log($"skipNext: {skipNext}");
+                UniLog.Log($"files: {files}");
+                if (skipNext)
+                {
+                    skipNext = false;
+                    return true;
+                }
+
+                var appliedConverters = files.GroupBy((file) => Converters.GetFactory(assetClass, file));
                 files = new List<string>();
 
                 foreach (var converterFiles in appliedConverters)
                 {
-                    var converter = converterFiles.Key;
-                    if (converter != null)
+                    var converterFactory = converterFiles.Key;
+                    if (converterFactory != null)
                     {
-                        ImportConfigurator.Spawn(converterFiles, world, position, rotation, scale, converter);
+                        var converter = converterFactory(world);
+                        ImportConfigurator.Spawn(assetClass, converterFiles, world, position, rotation, scale, converter);
+
+                        position += rotation * float3.Forward;
                     }
                     else
                     {
@@ -54,5 +66,18 @@ namespace NeosDocumentImport
                 }
             }
         }
+        
+        [HarmonyPatch(typeof(AssetHelper), "ClassifyExtension")]
+        class ClassifyExtensionPatch
+        {
+            public static bool Prefix(ref AssetClass __result, string ext)
+            {
+                if (string.IsNullOrWhiteSpace(ext))
+                    return true;
+                return !Extensions.TryGet(ext, out __result);
+            }
+        }
+
+
     }
 }

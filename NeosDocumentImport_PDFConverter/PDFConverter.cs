@@ -55,6 +55,7 @@ namespace NeosDocumentImport
                 var nPages = doc.GetPageCount();
                 var pageNumberLength = nPages.ToString().Length;
 
+                var pages = this.pages;
                 if (!pages.Any())
                 {
                     pages = new List<PageRange> { new PageRange(1, nPages) };

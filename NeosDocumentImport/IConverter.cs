@@ -10,7 +10,7 @@ namespace NeosDocumentImport
         Reference
     }
 
-    [AttributeUsage(System.AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class ConfigAttribute : Attribute
     {
         public readonly string name;

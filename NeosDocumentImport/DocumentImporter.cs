@@ -51,6 +51,8 @@ namespace NeosDocumentImport
                         slot.GlobalPosition = position;
                         slot.GlobalRotation = rotation;
 
+                        position += rotation * float3.Forward;
+
                         BatchFolderImporter.BatchImport(slot, pages); //destroys slot
                     });
                 }
