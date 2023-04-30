@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
@@ -39,13 +40,13 @@ namespace NeosDocumentImport
             return ppi > 0 && pages != null;
         }
 
-        public List<string> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress)
+        public async Task<List<string>> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress)
         {
             var filename = Path.GetFileName(file);
 
             DocumentImporter.UpdateProgress(progress, filename, 0, "Loading File...");
 
-            var data = ImportUtils.LoadData(file, world);
+            var data = await ImportUtils.LoadData(file, world);
 
             DocumentImporter.UpdateProgress(progress, filename, 0, "Loading Data...");
 

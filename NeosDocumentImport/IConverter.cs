@@ -1,6 +1,7 @@
 ﻿using BaseX;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
@@ -25,6 +26,6 @@ namespace NeosDocumentImport
     public interface IConverter
     {
         bool ValidateConfig();
-        List<string> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress);
+        Task<List<string>> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress);
     }
 }
