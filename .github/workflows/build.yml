@@ -24,7 +24,7 @@ jobs:
           cd "${NeosPath}/Libraries" && wget "https://github.com/neos-modding-group/NeosModLoader/releases/latest/download/NeosModLoader.dll"
       - name: Lint
         run: dotnet format --verbosity detailed --verify-no-changes ./NeosDocumentImport.sln
-      - name: Build binaries, create release directory structure, calculate sha256 checksums
+      - name: Build binaries, create release directory structure
         run: |
           dotnet build ./NeosDocumentImport.sln --configuration Release
 
@@ -42,8 +42,6 @@ jobs:
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/ExCSS.dll ./release/nml_libs/ExCSS.dll
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/Fizzler.dll ./release/nml_libs/Fizzler.dll
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/Svg.dll ./release/nml_libs/Svg.dll
-          
-          sha256sum ./release/*.dll ./release/*/*.dll
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.0
         with:
@@ -51,15 +49,14 @@ jobs:
           filename: 'NeosDocumentImport.zip'
           path: '.'
           directory: './release'
+      - name: calculate SHA256
+        run: sha256sum ./release/*.dll ./release/*/*.dll ./release/*.zip
       - name: Upload artifacts
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' # only publish workflow artifacts for pushes to main or tags
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport
-          path: |
-            ./release/*.zip
-            ./release/*.dll
-            ./release/*/*.dll
+          path: ./release/NeosDocumentImport.dll
           if-no-files-found: error
       - name: Create release draft
         if: startsWith(github.ref, 'refs/tags/')
