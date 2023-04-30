@@ -64,7 +64,7 @@ namespace NeosDocumentImport
                 }
             }
         }
-        
+
         [HarmonyPatch(typeof(AssetHelper), "ClassifyExtension")]
         class ClassifyExtensionPatch
         {
@@ -75,7 +75,5 @@ namespace NeosDocumentImport
                 return !Extensions.TryGet(ext, out __result);
             }
         }
-
-
     }
 }
