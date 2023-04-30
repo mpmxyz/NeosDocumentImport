@@ -1,6 +1,7 @@
 ﻿using BaseX;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
@@ -10,7 +11,7 @@ namespace NeosDocumentImport
         Reference
     }
 
-    [AttributeUsage(System.AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class ConfigAttribute : Attribute
     {
         public readonly string name;
@@ -25,6 +26,6 @@ namespace NeosDocumentImport
     public interface IConverter
     {
         bool ValidateConfig();
-        List<string> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress);
+        Task<List<string>> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress);
     }
 }

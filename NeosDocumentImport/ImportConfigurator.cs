@@ -3,6 +3,7 @@ using FrooxEngine;
 using System.Collections.Generic;
 using FrooxEngine.UIX;
 using System.Reflection;
+using CodeX;
 
 namespace NeosDocumentImport
 {
@@ -26,6 +27,7 @@ namespace NeosDocumentImport
         }
 
         internal static void Spawn(
+            AssetClass assetClass,
             IEnumerable<string> files,
             World world,
             float3 position,
@@ -85,8 +87,12 @@ namespace NeosDocumentImport
 
             uiBuilder.Style.FlexibleHeight = -1;
             uiBuilder.Style.MinHeight = 24;
+            uiBuilder.Style.ForceExpandWidth = true;
 
-            var trigger = uiBuilder.Button((LocaleString)"Import!");
+            uiBuilder.HorizontalLayout(spacing: 4);
+            uiBuilder.Style.FlexibleWidth = 1;
+
+            var trigger = uiBuilder.Button((LocaleString)"Import");
             trigger.LocalPressed += (button, data) =>
             {
                 if (converter.ValidateConfig())
@@ -94,6 +100,14 @@ namespace NeosDocumentImport
                     DocumentImporter.Spawn(files, converter, world, slot.GlobalPosition, slot.GlobalRotation);
                     slot.Destroy();
                 }
+            };
+
+            var rawImportTrigger = uiBuilder.Button((LocaleString)"Skip conversion");
+            rawImportTrigger.LocalPressed += (button, data) =>
+            {
+                NeosDocumentImportMod.skipNext = true;
+                UniversalImporter.Import(assetClass, files, world, position, rotation);
+                slot.Destroy();
             };
         }
 

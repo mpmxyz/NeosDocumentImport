@@ -29,7 +29,7 @@ namespace NeosDocumentImport
             });
         }
 
-        private static void Import(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
+        private static async void Import(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
         {
             var localDb = world.Engine.LocalDB;
             var imageDirs = new List<string>();
@@ -44,12 +44,14 @@ namespace NeosDocumentImport
                 try
                 {
                     Directory.CreateDirectory(dir);
-                    var pages = converter.Apply(file, dir, prefix, progress);
+                    var pages = await converter.Apply(file, dir, prefix, progress);
                     world.RunSynchronously(() =>
                     {
                         var slot = world.AddSlot(filename, false);
                         slot.GlobalPosition = position;
                         slot.GlobalRotation = rotation;
+
+                        position += rotation * float3.Forward;
 
                         BatchFolderImporter.BatchImport(slot, pages); //destroys slot
                     });

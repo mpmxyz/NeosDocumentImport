@@ -7,11 +7,11 @@ namespace NeosDocumentImport
     {
         public override string Name => "NeosDocumentImport_PDFConverter";
         public override string Author => "mpmxyz";
-        public override string Version => "1.0.0";
+        public override string Version => "2.0.0";
         public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
-            Converters.Register((world) => new PDFConverter(world), AssetClass.Document, ".pdf");
+            Converters.Register((world) => new PDFConverter(world), AssetClass.Document, "pdf");
         }
     }
 }

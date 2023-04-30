@@ -3,18 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosDocumentImport", "NeosDocumentImport\NeosDocumentImport.csproj", "{0322B2EF-7452-479D-BAE2-FCAB75033337}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeosDocumentImport", "NeosDocumentImport\NeosDocumentImport.csproj", "{0322B2EF-7452-479D-BAE2-FCAB75033337}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosDocumentImport_PDFConverter", "NeosDocumentImport_PDFConverter\NeosDocumentImport_PDFConverter.csproj", "{8DD0502D-E3E2-497B-B750-A093CC013D3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeosDocumentImport_PDFConverter", "NeosDocumentImport_PDFConverter\NeosDocumentImport_PDFConverter.csproj", "{8DD0502D-E3E2-497B-B750-A093CC013D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosDocumentImport_SVGConverter", "NeosDocumentImport_SVGConverter\NeosDocumentImport_SVGConverter.csproj", "{91255C2B-7187-4A30-B986-1E879ABA2567}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeosDocumentImport_HTMLConverter", "NeosDocumentImport_HTMLConverter\NeosDocumentImport_HTMLConverter.csproj", "{10F1F196-5705-4774-BA48-4B24ACC875CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeosDocumentImport_SVGConverter", "NeosDocumentImport_SVGConverter\NeosDocumentImport_SVGConverter.csproj", "{91255C2B-7187-4A30-B986-1E879ABA2567}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{2E3F96E0-B4CA-4E04-9E09-5677E5019209}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0322B2EF-7452-479D-BAE2-FCAB75033337} = {0322B2EF-7452-479D-BAE2-FCAB75033337}
-		{10F1F196-5705-4774-BA48-4B24ACC875CC} = {10F1F196-5705-4774-BA48-4B24ACC875CC}
 		{8DD0502D-E3E2-497B-B750-A093CC013D3F} = {8DD0502D-E3E2-497B-B750-A093CC013D3F}
 		{91255C2B-7187-4A30-B986-1E879ABA2567} = {91255C2B-7187-4A30-B986-1E879ABA2567}
 	EndProjectSection
@@ -37,10 +34,6 @@ Global
 		{91255C2B-7187-4A30-B986-1E879ABA2567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91255C2B-7187-4A30-B986-1E879ABA2567}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91255C2B-7187-4A30-B986-1E879ABA2567}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10F1F196-5705-4774-BA48-4B24ACC875CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10F1F196-5705-4774-BA48-4B24ACC875CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10F1F196-5705-4774-BA48-4B24ACC875CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10F1F196-5705-4774-BA48-4B24ACC875CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E3F96E0-B4CA-4E04-9E09-5677E5019209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E3F96E0-B4CA-4E04-9E09-5677E5019209}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E3F96E0-B4CA-4E04-9E09-5677E5019209}.Release|Any CPU.ActiveCfg = Release|Any CPU

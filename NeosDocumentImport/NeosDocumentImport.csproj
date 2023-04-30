@@ -45,6 +45,9 @@ copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>$(NeosPath)\Neos_Data\Managed\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>$(NeosPath)\Neos_Data\Managed\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple">
       <HintPath>$(NeosPath)\Neos_Data\Managed\System.ValueTuple.dll</HintPath>
     </Reference>

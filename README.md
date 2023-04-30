@@ -31,15 +31,12 @@ To selectively install features refer to the following tables:
 |nml_libs/Svg.dll|nml_libs/|
 |nml_mods/NeosDocumentImport_SVGImporter.dll|nml_mods/|
 
-### HTML Importing
-|File|Copy to|
-|----|-------|
-|nml_mods/NeosDocumentImport_HTMLImporter.dll|nml_mods/|
-|nml_libs/PuppeteerSharp.dll|nml_libs/|
-Note: Puppeteer downloads and executes Chrome in the background to work.
+### HTML Importing (not anymore)
+This feature has been removed as the originally used rendering library downloaded Chrome in the background.
+After some reflection on that I decided the HTML feature is not worth the security issue of code being downloaded without user instruction.
 
 ## Usage
-Just paste or drag&drop the PDF/SVG/HTML files into Neos.
+Just paste or drag&drop the PDF/SVG files into Neos.
 Pasting URLs also works if it ends with with a proper file ending.
 Importing from file objects or from within the Neos file browser are not yet supported.
 
@@ -61,13 +58,4 @@ An import dialog allows you to adjust the resolution and a few other settings.
 |---|---|---|
 |Width|output width in px|128|
 |Transparency|disable to render with white background|enabled|
-
-### HTML Importing
-![HTML import dialog](pictures/config_html.jpg)
-
-|Setting|Description|Default|
-|---|---|---|
-|Width|window width in px|1024|
-|Display Pixel Ratio|output pixel per window pixel|1.0|
-|Background|disable to render with transparent background|enabled|
 
