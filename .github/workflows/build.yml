@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport.dll
-          path: ./release/NeosDocumentImport.dll
+          path: ./release/nml_mods/NeosDocumentImport.dll
           if-no-files-found: error
           
       - name: Upload artifacts (nml_mods/NeosDocumentImport_PDFConverter.dll)
