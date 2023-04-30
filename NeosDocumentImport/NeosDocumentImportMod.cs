@@ -13,7 +13,7 @@ namespace NeosDocumentImport
     {
         public override string Name => "NeosDocumentImport";
         public override string Author => "mpmxyz";
-        public override string Version => "1.0.0";
+        public override string Version => "2.0.0";
         public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
@@ -28,8 +28,6 @@ namespace NeosDocumentImport
         {
             public static bool Prefix(ref Task __result, AssetClass assetClass, ref IEnumerable<string> files, World world, float3 position, floatQ rotation, float3 scale, bool silent = false)
             {
-                UniLog.Log($"skipNext: {skipNext}");
-                UniLog.Log($"files: {files}");
                 if (skipNext)
                 {
                     skipNext = false;

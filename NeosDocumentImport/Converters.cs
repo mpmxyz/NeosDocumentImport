@@ -23,7 +23,6 @@ namespace NeosDocumentImport
         public static Func<World, IConverter> GetFactory(AssetClass assetClass, string file)
         {
             var extension = Path.GetExtension(file).Replace(".", "").ToLower();
-            UniLog.Log($"assetClass: {assetClass}, ext: {extension}");
             return factories.TryGetValue((assetClass, extension), out var factory) ? factory : null;
         }
     }
