@@ -55,7 +55,7 @@ jobs:
           path: '.'
           directory: './release'
       - name: Upload artifacts
-        if: env.UPLOAD_ARTIFACTS
+        if: ${{ env.UPLOAD_ARTIFACTS }}
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport
