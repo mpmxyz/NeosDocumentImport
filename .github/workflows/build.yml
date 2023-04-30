@@ -57,10 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport
-          path: |
-            ./release/*.zip
-            ./release/*.dll
-            ./release/*/*.dll
+          path: ./release/NeosDocumentImport.zip
           if-no-files-found: error
       - name: Create release draft
         if: startsWith(github.ref, 'refs/tags/')
