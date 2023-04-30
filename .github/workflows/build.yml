@@ -55,17 +55,77 @@ jobs:
           filename: 'NeosDocumentImport.zip'
           path: '.'
           directory: './release'
-      - name: Upload artifacts
+          
+      - name: Upload artifacts (zip)
         if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: NeosDocumentImport
           path: ./release/NeosDocumentImport.zip
           if-no-files-found: error
+
+      - name: Upload artifacts (nml_mods/NeosDocumentImport.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: NeosDocumentImport.dll
+          path: ./release/NeosDocumentImport.dll
+          if-no-files-found: error
+          
+      - name: Upload artifacts (nml_mods/NeosDocumentImport_PDFConverter.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: NeosDocumentImport_PDFConverter.dll
+          path: ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
+          if-no-files-found: error
+      - name: Upload artifacts (pdfium.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdfium.dll
+          path: ./release/pdfium.dll
+          if-no-files-found: error
+      - name: Upload artifacts (nml_libs/Docnet.Core.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Docnet.Core.dll
+          path: ./release/nml_libs/Docnet.Core.dll
+          if-no-files-found: error
+          
+      - name: Upload artifacts (nml_mods/NeosDocumentImport_SVGConverter.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: NeosDocumentImport_SVGConverter.dll
+          path: ./release/nml_mods/NeosDocumentImport_SVGConverter.dll
+          if-no-files-found: error
+      - name: Upload artifacts (nml_libs/ExCSS.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ExCSS.dll
+          path: ./release/nml_libs/ExCSS.dll
+          if-no-files-found: error
+      - name: Upload artifacts (nml_libs/Fizzler.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Fizzler.dll
+          path: ./release/nml_libs/Fizzler.dll
+          if-no-files-found: error
+      - name: Upload artifacts (nml_libs/Svg.dll)
+        if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Svg.dll
+          path: ./release/nml_libs/Svg.dll
+          if-no-files-found: error
+          
       - name: Create release draft
         if: ${{ env.PUBLISH_ARTIFACTS == 'true' }}
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            ./release/NeosDocumentImport.zip
+          files: ./release/*.zip ./release/*.dll ./release/*/*.dll
           draft: true
