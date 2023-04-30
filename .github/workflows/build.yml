@@ -57,7 +57,9 @@ jobs:
         with:
           name: NeosDocumentImport
           path: |
-            ./release/NeosDocumentImport.zip
+            ./release/*.zip
+            ./release/*.dll
+            ./release/*/*.dll
           if-no-files-found: error
       - name: Create release draft
         if: startsWith(github.ref, 'refs/tags/')
