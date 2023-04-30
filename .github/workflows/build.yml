@@ -42,6 +42,8 @@ jobs:
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/ExCSS.dll ./release/nml_libs/ExCSS.dll
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/Fizzler.dll ./release/nml_libs/Fizzler.dll
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/Svg.dll ./release/nml_libs/Svg.dll
+          
+          sha256sum ./release/*.dll .release/*/*.dll
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.0
         with:
@@ -49,10 +51,6 @@ jobs:
           filename: 'NeosDocumentImport.zip'
           path: '.'
           directory: './release'
-      - name: SHA256 Checksums
-        uses: Huy-Ngo/gha-sha@v1.1.0
-        with:
-          glob: ./release/**
       - name: Upload artifacts
         if: startsWith(github.ref, 'refs/tags/') || github.ref == 'refs/heads/main' # only publish workflow artifacts for pushes to main or tags
         uses: actions/upload-artifact@v3
