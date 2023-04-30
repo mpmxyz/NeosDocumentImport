@@ -127,5 +127,8 @@ jobs:
         if: ${{ env.PUBLISH_ARTIFACTS == 'true' }}
         uses: softprops/action-gh-release@v1
         with:
-          files: ./release/*.zip ./release/*.dll ./release/*/*.dll
+          files: |
+            ./release/*.zip
+            ./release/*.dll
+            ./release/*/*.dll
           draft: true
