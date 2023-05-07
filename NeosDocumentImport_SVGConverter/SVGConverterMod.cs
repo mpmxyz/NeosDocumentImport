@@ -1,7 +1,8 @@
 ﻿using CodeX;
+using NeosDocumentImport;
 using NeosModLoader;
 
-namespace NeosDocumentImport
+namespace NeosDocumentImport_SVGConverter
 {
     public class SVGConverterMod : NeosMod
     {
@@ -12,7 +13,7 @@ namespace NeosDocumentImport
         public override void OnEngineInit()
         {
             Converters.Register((world) => new SVGConverter(world), AssetClass.Document, "svg", "svgz");
-            Extensions.RegisterOverrides(AssetClass.Document, "svg", "svgz");
+            AssetClassOverrides.Register(AssetClass.Document, "svg", "svgz");
         }
     }
 }

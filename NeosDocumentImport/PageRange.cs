@@ -37,7 +37,7 @@ namespace NeosDocumentImport
             return new PageRange(Clamp(min, from, max), Clamp(min, to, max));
         }
 
-        private int Clamp(int min, int x, int max)
+        private static int Clamp(int min, int x, int max)
         {
             return Math.Min(Math.Max(x, min), max);
         }
@@ -65,7 +65,7 @@ namespace NeosDocumentImport
             return GetEnumerator();
         }
 
-        public static List<PageRange> fromString(string pageString)
+        public static List<PageRange> FromString(string pageString)
         {
             var pages = new List<PageRange>();
             if (pageString == null)

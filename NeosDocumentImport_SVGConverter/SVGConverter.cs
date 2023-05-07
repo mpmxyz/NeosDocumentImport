@@ -1,12 +1,11 @@
 ﻿using BaseX;
 using FrooxEngine;
-using Svg;
+using NeosDocumentImport;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NeosDocumentImport
+namespace NeosDocumentImport_SVGConverter
 {
     internal class SVGConverter : IConverter
     {
@@ -27,42 +26,27 @@ namespace NeosDocumentImport
         public async Task<List<string>> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress)
         {
             var filename = Path.GetFileName(file);
-            DocumentImporter.UpdateProgress(progress, filename, 0, "Loading File...");
+            var outputFile = Path.Combine(outputDir, $"{pagePrefix}.png");
+            ImportUtils.Update(progress, filename, 0, "Loading File...");
 
             var data = await ImportUtils.LoadData(file, world);
+            ImportUtils.Update(progress, filename, 0, "Loading Data...");
 
-            DocumentImporter.UpdateProgress(progress, filename, 0, "Loading Data...");
-            SvgDocument svgDoc;
-            using (System.IO.Stream stream = new MemoryStream(data))
+            using (var helper = new SVGHelper(data))
             {
-                svgDoc = SvgDocument.Open<SvgDocument>(stream);
-            }
+                ImportUtils.Update(progress, filename, 1f / 3, "Rendering...");
 
-            DocumentImporter.UpdateProgress(progress, filename, 1f / 3, "Rendering...");
-            using (var image = svgDoc.Draw(width, 0)) //height=0 or width=0 keeps aspect ratio
-            {
-
-                var outputFile = Path.Combine(outputDir, $"{pagePrefix}.png");
-                Directory.CreateDirectory(outputDir);
+                helper.Render(width);
 
                 if (!transparency)
                 {
-                    DocumentImporter.UpdateProgress(progress, filename, 1.5f / 3, "Removing Transparency...");
-                    using (var copy = new Bitmap(image))
-                    {
-                        using (var gfx = Graphics.FromImage(image))
-                        {
-                            gfx.FillRectangle(new SolidBrush(Color.White), gfx.ClipBounds);
-                            gfx.DrawImage(copy, System.Drawing.Point.Empty);
-                        };
-                    }
+                    ImportUtils.Update(progress, filename, 1.5f / 3, "Removing Transparency...");
+                    helper.MakeOpaque();
                 }
+                ImportUtils.Update(progress, filename, 2 / 3f, "Writing file...");
 
-                DocumentImporter.UpdateProgress(progress, filename, 2 / 3f, "Writing file...");
-
-                image.Save(outputFile);
-
-                DocumentImporter.UpdateProgress(progress, filename, 1, "Done!");
+                helper.Export(outputFile);
+                ImportUtils.Update(progress, filename, 1, "Done!");
 
                 return new List<string> { outputFile };
             }

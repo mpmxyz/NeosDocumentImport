@@ -3,7 +3,7 @@
     <TargetFramework>net462</TargetFramework>
     <AssemblyTitle>NeosDocumentImport</AssemblyTitle>
     <Product>NeosDocumentImport</Product>
-    <Copyright>Copyright ©  2021</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
@@ -28,11 +28,11 @@ copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
     <Reference Include="BaseX">
       <HintPath>$(NeosPath)\Neos_Data\Managed\BaseX.dll</HintPath>
     </Reference>
-    <Reference Include="CloudX.Shared">
-      <HintPath>$(NeosPath)\Neos_Data\Managed\CloudX.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="CodeX">
       <HintPath>$(NeosPath)\Neos_Data\Managed\CodeX.dll</HintPath>
+    </Reference>
+    <Reference Include="CloudX.Shared">
+      <HintPath>$(NeosPath)\Neos_Data\Managed\CloudX.Shared.dll</HintPath>
     </Reference>
     <Reference Include="FrooxEngine">
       <HintPath>$(NeosPath)\Neos_Data\Managed\FrooxEngine.dll</HintPath>
@@ -40,16 +40,11 @@ copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
     <Reference Include="NeosModLoader">
       <HintPath>$(NeosPath)\Libraries\NeosModLoader.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>$(NeosPath)\Neos_Data\Managed\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>$(NeosPath)\Neos_Data\Managed\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple">
-      <HintPath>$(NeosPath)\Neos_Data\Managed\System.ValueTuple.dll</HintPath>
-    </Reference>
+	<Reference Include="System.ValueTuple">
+	  <HintPath>$(NeosPath)\Neos_Data\Managed\System.ValueTuple.dll</HintPath>
+	</Reference>
   </ItemGroup>
 </Project>

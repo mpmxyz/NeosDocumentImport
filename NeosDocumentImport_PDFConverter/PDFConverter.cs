@@ -1,14 +1,9 @@
 ﻿using BaseX;
-using Docnet.Core;
-using Docnet.Core.Converters;
-using Docnet.Core.Models;
-using Docnet.Core.Readers;
 using FrooxEngine;
+using NeosDocumentImport_PDFConverter;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace NeosDocumentImport
@@ -36,7 +31,7 @@ namespace NeosDocumentImport
 
         public bool ValidateConfig()
         {
-            pages = PageRange.fromString(rawPages);
+            pages = PageRange.FromString(rawPages);
             return ppi > 0 && pages != null;
         }
 
@@ -44,16 +39,15 @@ namespace NeosDocumentImport
         {
             var filename = Path.GetFileName(file);
 
-            DocumentImporter.UpdateProgress(progress, filename, 0, "Loading File...");
+            progress?.Update(filename, 0, "Loading File...");
 
             var data = await ImportUtils.LoadData(file, world);
 
-            DocumentImporter.UpdateProgress(progress, filename, 0, "Loading Data...");
+            progress?.Update(filename, 0, "Loading Data...");
 
-            var dimensions = new PageDimensions(ppi / 72.0);
-            using (var doc = DocLib.Instance.GetDocReader(data, dimensions))
+            using (var helper = new DocumentHelper(data, ppi))
             {
-                var nPages = doc.GetPageCount();
+                var nPages = helper.pageCount;
                 var pageNumberLength = nPages.ToString().Length;
 
                 var pages = this.pages;
@@ -68,7 +62,9 @@ namespace NeosDocumentImport
                 var outputFiles = new List<string>();
                 var nDone = 0;
                 var nRequested = pages.Sum((x) => x.Count);
+
                 float percentage() => (float)nDone / nRequested;
+                string progText(int _nDone) => $"{filename} ({_nDone + 1}/{nRequested})";
 
                 foreach (var range in pages)
                 {
@@ -80,22 +76,24 @@ namespace NeosDocumentImport
 
                         if (!outputFiles.Contains(outputFile))
                         {
-                            DocumentImporter.UpdateProgress(progress, $"{filename} ({nDone + 1}/{nRequested})", percentage(), "Loading... ");
-                            using (var page = doc.GetPageReader(iPage - 1))
+                            progress?.Update(progText(nDone), percentage(), "Loading... ");
+
+                            using (var page = helper.GetPage(iPage))
                             {
-                                DocumentImporter.UpdateProgress(progress, $"{filename} ({nDone + 1}/{nRequested})", percentage(), "Drawing...");
-                                using (var image = Rasterize(page))
-                                {
-                                    DocumentImporter.UpdateProgress(progress, $"{filename} ({nDone + 1}/{nRequested})", percentage(), "Saving...");
-                                    image.Save(outputFile);
-                                }
+                                progress?.Update(progText(nDone), percentage(), "Drawing...");
+
+                                page.Render(background);
+
+                                progress?.Update(progText(nDone), percentage(), "Saving...");
+
+                                page.Save(outputFile);
                             }
                         }
 
                         outputFiles.Add(outputFile);
                         nDone++;
 
-                        DocumentImporter.UpdateProgress(progress, $"{filename} ({nDone}/{nRequested})", percentage(), "Done!");
+                        progress?.Update(progText(nDone - 1), percentage(), "Done!");
                     }
                 }
 
@@ -103,43 +101,5 @@ namespace NeosDocumentImport
             }
         }
 
-        private class OpaqueConverter : IImageBytesConverter
-        {
-            public byte[] Convert(byte[] bytes)
-            {
-                for (int i = 0; i < bytes.Length - 3; i += 4)
-                {
-                    int alpha = bytes[i + 3];
-                    int antiAlpha = 255 - alpha; //white background, premultiplied
-                    bytes[i] = (byte)(bytes[i] * alpha / 255 + antiAlpha);
-                    bytes[i + 1] = (byte)(bytes[i + 1] * alpha / 255 + antiAlpha);
-                    bytes[i + 2] = (byte)(bytes[i + 2] * alpha / 255 + antiAlpha);
-                    bytes[i + 3] = 255;
-                }
-                return bytes;
-            }
-        }
-
-        private Image Rasterize(IPageReader page)
-        {
-            var bitmap = new Bitmap(
-                page.GetPageWidth(),
-                page.GetPageHeight(),
-                System.Drawing.Imaging.PixelFormat.Format32bppArgb
-            );
-
-            var rendered = background ? page.GetImage(new OpaqueConverter()) : page.GetImage();
-            var bitmapData = bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                bitmap.PixelFormat
-            );
-            var bitmapBytes = bitmapData.Scan0;
-
-            Marshal.Copy(rendered, 0, bitmapBytes, rendered.Length);
-            bitmap.UnlockBits(bitmapData);
-
-            return bitmap;
-        }
     }
 }

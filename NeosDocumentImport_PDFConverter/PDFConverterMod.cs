@@ -1,7 +1,8 @@
 ﻿using CodeX;
+using NeosDocumentImport;
 using NeosModLoader;
 
-namespace NeosDocumentImport
+namespace NeosDocumentImport_PDFConverter
 {
     public class PDFConverterMod : NeosMod
     {

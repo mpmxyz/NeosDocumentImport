@@ -1,15 +1,17 @@
 ﻿using CodeX;
 using System.Collections.Generic;
-using System.IO;
 
 namespace NeosDocumentImport
 {
-    public static class Extensions
+    /// <summary>
+    /// A registry of file extension based asset class overrides
+    /// </summary>
+    public static class AssetClassOverrides
     {
         private static readonly Dictionary<string, AssetClass> overrides =
     new Dictionary<string, AssetClass>();
 
-        public static void RegisterOverrides(AssetClass assetClass, params string[] extensions)
+        public static void Register(AssetClass assetClass, params string[] extensions)
         {
             foreach (var extension in extensions)
             {

@@ -3,7 +3,7 @@
     <TargetFramework>net462</TargetFramework>
     <AssemblyTitle>NeosDocumentImport_PDFConverter</AssemblyTitle>
     <Product>NeosDocumentImport_PDFConverter</Product>
-    <Copyright>Copyright ©  2023</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
@@ -36,7 +36,6 @@ copy "Docnet.Core.dll" "$(NeosPath)\nml_libs\"
     <Reference Include="NeosModLoader">
       <HintPath>$(NeosPath)\Libraries\NeosModLoader.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeosDocumentImport\NeosDocumentImport.csproj" />

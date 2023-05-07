@@ -7,25 +7,11 @@ using CodeX;
 
 namespace NeosDocumentImport
 {
-    delegate void ImportAction(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation);
-
+    /// <summary>
+    /// Helper class to create an import dialog
+    /// </summary>
     internal static class ImportConfigurator
     {
-        private static IField BuildValue<T>(Slot slot, object obj, FieldInfo prop)
-        {
-            var value = slot.AttachComponent<ValueField<T>>().Value;
-            value.Value = (T)prop.GetValue(obj);
-            value.OnValueChange += (x) => { prop.SetValue(obj, x.Value); };
-            return value;
-        }
-        private static IField BuildReference<T>(Slot slot, object obj, FieldInfo prop) where T : class, IWorldElement
-        {
-            var value = slot.AttachComponent<ReferenceField<T>>().Reference;
-            value.Target = (T)prop.GetValue(obj);
-            value.OnReferenceChange += (x) => { prop.SetValue(obj, x.Target); };
-            return value;
-        }
-
         internal static void Spawn(
             AssetClass assetClass,
             IEnumerable<string> files,
@@ -83,8 +69,6 @@ namespace NeosDocumentImport
                 }
             }
 
-            panel.CanvasSize = new float2(200, 108);
-
             uiBuilder.Style.FlexibleHeight = -1;
             uiBuilder.Style.MinHeight = 24;
             uiBuilder.Style.ForceExpandWidth = true;
@@ -97,7 +81,7 @@ namespace NeosDocumentImport
             {
                 if (converter.ValidateConfig())
                 {
-                    DocumentImporter.Spawn(files, converter, world, slot.GlobalPosition, slot.GlobalRotation);
+                    Conversion.Start(files, converter, world, slot.GlobalPosition, slot.GlobalRotation);
                     slot.Destroy();
                 }
             };
@@ -111,16 +95,20 @@ namespace NeosDocumentImport
             };
         }
 
-        private static void PrependHeader(this UIBuilder uiBuilder, string text)
+        private static IField BuildValue<T>(Slot slot, object obj, FieldInfo prop)
         {
-            uiBuilder.Next(text);
-            uiBuilder.Nest();
-            RectTransform header, content;
-            uiBuilder.SplitHorizontally(0.25f, out header, out content, 0.02f);
-            uiBuilder.NestInto(header);
-            uiBuilder.Text((LocaleString)$"{text}:");
-            uiBuilder.NestOut();
-            uiBuilder.NestInto(content);
+            var value = slot.AttachComponent<ValueField<T>>().Value;
+            value.Value = (T)prop.GetValue(obj);
+            value.OnValueChange += (x) => { prop.SetValue(obj, x.Value); };
+            return value;
+        }
+
+        private static IField BuildReference<T>(Slot slot, object obj, FieldInfo prop) where T : class, IWorldElement
+        {
+            var value = slot.AttachComponent<ReferenceField<T>>().Reference;
+            value.Target = (T)prop.GetValue(obj);
+            value.OnReferenceChange += (x) => { prop.SetValue(obj, x.Target); };
+            return value;
         }
     }
 }

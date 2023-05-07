@@ -6,14 +6,12 @@ using System;
 
 namespace NeosDocumentImport
 {
-    public class DocumentImporter
+    /// <summary>
+    /// Helper class to start a batch conversion for multiple files (includes a progress indicator)
+    /// </summary>
+    internal static class Conversion
     {
-        public static void UpdateProgress(IProgressIndicator progress, string name, float percent, string details)
-        {
-            progress?.UpdateProgress(percent, $"Converting {name}", details);
-        }
-
-        public static void Spawn(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation)
+        internal static void Start(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation)
         {
             var slot = world.AddSlot("File Converter", false);
             var progress = slot.AttachComponent<NeosLogoMenuProgress>();
@@ -21,7 +19,7 @@ namespace NeosDocumentImport
 
             world.RunInBackground(() =>
             {
-                Import(files, converter, world, position, rotation, progress);
+                Convert(files, converter, world, position, rotation, progress);
                 world.RunSynchronously(() =>
                 {
                     slot.Destroy();
@@ -29,7 +27,7 @@ namespace NeosDocumentImport
             });
         }
 
-        private static async void Import(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
+        private static async void Convert(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
         {
             var localDb = world.Engine.LocalDB;
             var imageDirs = new List<string>();

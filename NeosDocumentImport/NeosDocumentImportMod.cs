@@ -72,7 +72,7 @@ namespace NeosDocumentImport
             {
                 if (string.IsNullOrWhiteSpace(ext))
                     return true;
-                return !Extensions.TryGet(ext, out __result);
+                return !AssetClassOverrides.TryGet(ext, out __result);
             }
         }
     }
