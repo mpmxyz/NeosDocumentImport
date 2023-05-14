@@ -5,6 +5,9 @@ using System.IO;
 
 namespace NeosDocumentImport_SVGConverter
 {
+    /// <summary>
+    /// adapter to Svg library
+    /// </summary>
     internal class SVGHelper : IDisposable
     {
         private SvgDocument svgDoc;

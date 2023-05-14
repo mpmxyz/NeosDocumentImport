@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace NeosDocumentImport_PDFConverter
 {
+    /// <summary>
+    /// page related adapter to Docnet.Core library
+    /// </summary>
     internal class PageHelper : IDisposable
     {
         private readonly IPageReader pageReader;
@@ -56,6 +59,7 @@ namespace NeosDocumentImport_PDFConverter
 
             bitmap.Save(outputFile);
         }
+
 
         private class OpaqueConverter : IImageBytesConverter
         {

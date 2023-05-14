@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace NeosDocumentImport_SVGConverter
 {
+    /// <summary>
+    /// configures and applies conversion of a svg files to images
+    /// </summary>
     internal class SVGConverter : IConverter
     {
         [Range(32, 512, "0")]

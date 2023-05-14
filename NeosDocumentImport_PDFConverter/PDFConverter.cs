@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
+    /// <summary>
+    /// configures and applies conversion of pdf files to a list of image files
+    /// </summary>
     class PDFConverter : IConverter
     {
         private const string PAGE_SUFFIX = ".png";

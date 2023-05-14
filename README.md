@@ -11,7 +11,7 @@ It should be at `C:\Program Files (x86)\Steam\steamapps\common\NeosVR\` for a de
 
 To selectively install features refer to the following tables:
 
-### Required
+### Shared Code (required)
 |File|Copy to|
 |----|-------|
 |nml_mods/NeosDocumentImport.dll|nml_mods/|
@@ -41,6 +41,7 @@ Pasting URLs also works if it ends with with a proper file ending.
 Importing from file objects or from within the Neos file browser are not yet supported.
 
 An import dialog allows you to adjust the resolution and a few other settings.
+If you want to apply the Neos default behaviour you can click the "Skip conversion" button.
 
 ### PDF Importing
 ![PDF import dialog](pictures/config_pdf.jpg)
@@ -59,3 +60,10 @@ An import dialog allows you to adjust the resolution and a few other settings.
 |Width|output width in px|128|
 |Transparency|disable to render with white background|enabled|
 
+## Development Hints
+
+This "solution" is divided into 3 projects with one being shared code used by the others as an API to inject file -> files conversions into Neos.
+That API is not yet stable. Long term plan is to make it help others to easily implement their own import conversions.
+
+All project references to Neos' dll files are relative to the environment variable "NeosPath".
+An environment variable named "BUILD_TYPE" with the value "CICD" will disable copying the built files into the Neos install directory.

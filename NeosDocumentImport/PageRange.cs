@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 namespace NeosDocumentImport
 {
+    /// <summary>
+    /// represents a range of pages numbers
+    /// (e.g. "1" or "3-4")
+    /// <br/>
+    /// Reverse order is permitted. (e.g. from=5, to=3 is pages 5,4,3)
+    /// </summary>
     public class PageRange : IEnumerable<int>
     {
         private readonly int from;
@@ -65,6 +71,15 @@ namespace NeosDocumentImport
             return GetEnumerator();
         }
 
+        /// <summary>
+        /// constructs a list of page ranges from a string of comma separated page range codes
+        /// <br/>
+        /// Each individual page range is either a single number (single page) or two numbers separated by a minus sign.
+        /// (multiple pages, inclusive start/end, reverse direction permitted) <br/>
+        /// Whitespace is ignored.
+        /// </summary>
+        /// <param name="pageString">may be null (equals an empty string)</param>
+        /// <returns>a list of page ranges if <paramref name="pageString"/> is valid, null otherwise</returns>
         public static List<PageRange> FromString(string pageString)
         {
             var pages = new List<PageRange>();

@@ -27,11 +27,11 @@ namespace NeosDocumentImport
         }
 
         /// <summary>
-        /// Downloads
+        /// Downloads to a temporary file if given an absolute URI
         /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="world"></param>
-        /// <returns></returns>
+        /// <param name="uri">Uri of the file to be loaded</param>
+        /// <param name="world">World that the file will be loaded in</param>
+        /// <returns>The path to the downloaded file or <paramref name="uri"/> if no download has been triggered</returns>
         public static async Task<string> RequestFile(string uri, World world)
         {
             if (Uri.IsWellFormedUriString(uri, UriKind.Absolute))
@@ -44,7 +44,14 @@ namespace NeosDocumentImport
             }
         }
 
-
+        /// <summary>
+        /// Updates the given progress indicator,
+        /// mostly a convenience wrapper for <see cref="IProgressIndicator.UpdateProgress(float, string, string)"/>
+        /// </summary>
+        /// <param name="progress">To be updated</param>
+        /// <param name="name">Is prefixed by "Converting "</param>
+        /// <param name="percent">Unchanged</param>
+        /// <param name="details">Unchanged</param>
         public static void Update(this IProgressIndicator progress, string name, float percent, string details)
         {
             progress.UpdateProgress(percent, $"Converting {name}", details);
