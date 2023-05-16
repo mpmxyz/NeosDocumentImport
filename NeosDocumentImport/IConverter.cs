@@ -50,8 +50,9 @@ namespace NeosDocumentImport
         /// <summary>
         /// Checks if Apply can be called
         /// </summary>
+        /// <param name="msg">Output for error message if <see langword="false"/> is returned</param>
         /// <returns><see langword="true"/>, if internal configuration is valid</returns>
-        bool ValidateConfig();
+        bool ValidateConfig(out string msg);
 
         /// <summary>
         /// Converts a single file into multiple other files

@@ -32,10 +32,20 @@ namespace NeosDocumentImport
             this.world = world;
         }
 
-        public bool ValidateConfig()
+        public bool ValidateConfig(out string msg)
         {
+            msg = null;
             pages = PageRange.FromString(rawPages);
-            return ppi > 0 && pages != null;
+
+            if (ppi <= 0)
+            {
+                msg += "Invalid PPI\n";
+            }
+            if (pages == null)
+            {
+                msg += "Invalid Pages\n";
+            }
+            return msg == null;
         }
 
         public async Task<List<string>> Apply(string file, string outputDir, string pagePrefix, IProgressIndicator progress)

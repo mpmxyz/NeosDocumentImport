@@ -55,9 +55,14 @@ namespace NeosDocumentImport_SVGConverter
             }
         }
 
-        public bool ValidateConfig()
+        public bool ValidateConfig(out string msg)
         {
-            return width > 0;
+            msg = null;
+            if (width <= 0)
+            {
+                msg += "Invalid Width\n";
+            }
+            return msg == null;
         }
     }
 }
