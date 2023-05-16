@@ -8,7 +8,7 @@ namespace NeosDocumentImport_PDFConverter
     /// <summary>
     /// document related adapter to Docnet.Core library
     /// </summary>
-    internal partial class DocumentHelper : IDisposable
+    internal class DocumentHelper : IDisposable
     {
         private readonly IDocReader doc;
         internal int pageCount

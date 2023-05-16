@@ -13,7 +13,7 @@ namespace NeosDocumentImport
     {
         public override string Name => "NeosDocumentImport";
         public override string Author => "mpmxyz";
-        public override string Version => "2.0.0";
+        public override string Version => "3.0.0";
         public override string Link => "https://github.com/mpmxyz/NeosDocumentImport/";
         public override void OnEngineInit()
         {
