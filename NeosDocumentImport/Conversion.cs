@@ -3,6 +3,7 @@ using BaseX;
 using FrooxEngine;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace NeosDocumentImport
 {
@@ -17,17 +18,14 @@ namespace NeosDocumentImport
             var progress = slot.AttachComponent<NeosLogoMenuProgress>();
             progress.Spawn(position, 0.05f, true);
 
-            world.RunInBackground(() =>
+            world.RunInBackground(async () =>
             {
-                Convert(files, converter, world, position, rotation, progress);
-                world.RunSynchronously(() =>
-                {
-                    slot.Destroy();
-                });
+                await Convert(files, converter, world, position, rotation, progress);
+                world.RunSynchronously(() => slot.Destroy());
             });
         }
 
-        private static async void Convert(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
+        private static async Task Convert(IEnumerable<string> files, IConverter converter, World world, float3 position, floatQ rotation, NeosLogoMenuProgress progress)
         {
             var localDb = world.Engine.LocalDB;
             var imageDirs = new List<string>();
