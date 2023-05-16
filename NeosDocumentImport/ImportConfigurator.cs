@@ -117,8 +117,8 @@ namespace NeosDocumentImport
                         }
                     }
                 }
+            }
         }
-    }
 
         private static MethodInfo FieldBuilder(FieldInfo prop, ConfigAttribute conf)
         {
@@ -139,7 +139,8 @@ namespace NeosDocumentImport
         {
             var value = slot.AttachComponent<ValueField<T>>().Value;
             value.Value = (T)prop.GetValue(obj);
-            value.OnValueChange += (x) => {
+            value.OnValueChange += (x) =>
+            {
                 prop.SetValue(obj, x.Value);
                 onChange();
             };
@@ -150,11 +151,12 @@ namespace NeosDocumentImport
         {
             var value = slot.AttachComponent<ReferenceField<T>>().Reference;
             value.Target = (T)prop.GetValue(obj);
-            value.OnReferenceChange += (x) => {
+            value.OnReferenceChange += (x) =>
+            {
                 prop.SetValue(obj, x.Target);
                 onChange();
             };
             return value;
         }
-}
+    }
 }
