@@ -38,7 +38,7 @@ jobs:
           
           mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/NeosDocumentImport_PDFConverter.dll ./release/nml_mods/NeosDocumentImport_PDFConverter.dll
           mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/pdfium.dll ./release/pdfium.dll
-          mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/Docnet.Core.dll ./release/nml_libs/Docnet.Core.dll
+          mv ./NeosDocumentImport_PDFConverter/bin/Release/net462/win-x64/PdfLibCore.dll ./release/nml_libs/PdfLibCore.dll
           
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/NeosDocumentImport_SVGConverter.dll ./release/nml_mods/NeosDocumentImport_SVGConverter.dll
           mv ./NeosDocumentImport_SVGConverter/bin/Release/net462/win-x64/ExCSS.dll ./release/nml_libs/ExCSS.dll
@@ -84,12 +84,12 @@ jobs:
           name: pdfium.dll
           path: ./release/pdfium.dll
           if-no-files-found: error
-      - name: Upload artifacts (nml_libs/Docnet.Core.dll)
+      - name: Upload artifacts (nml_libs/PdfLibCore.dll)
         if: ${{ env.UPLOAD_ARTIFACTS == 'true' }}
         uses: actions/upload-artifact@v3
         with:
-          name: Docnet.Core.dll
-          path: ./release/nml_libs/Docnet.Core.dll
+          name: PdfLibCore.dll
+          path: ./release/nml_libs/PdfLibCore.dll
           if-no-files-found: error
           
       - name: Upload artifacts (nml_mods/NeosDocumentImport_SVGConverter.dll)
