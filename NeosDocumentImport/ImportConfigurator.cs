@@ -147,7 +147,8 @@ namespace NeosDocumentImport
 
             Button button = uiBuilder.Button(LABEL_SECRET_EDIT);
             uiBuilder.CurrentRect.AnchorMin.Value = new float2(0.25f);
-            button.LocalPressed += (b, d) => {
+            button.LocalPressed += (b, d) =>
+            {
                 CreateUserSpacePopup(TITLE_SECRET_EDIT_PANEL, createFields);
             };
 
