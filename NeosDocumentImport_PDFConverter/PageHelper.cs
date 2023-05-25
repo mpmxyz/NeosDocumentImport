@@ -1,8 +1,6 @@
 ﻿using System;
-using Docnet.Core.Readers;
-using Docnet.Core.Converters;
 using System.Drawing;
-using System.Runtime.InteropServices;
+using PdfLibCore;
 
 namespace NeosDocumentImport_PDFConverter
 {
@@ -11,42 +9,42 @@ namespace NeosDocumentImport_PDFConverter
     /// </summary>
     internal class PageHelper : IDisposable
     {
-        private readonly IPageReader pageReader;
-        private Bitmap bitmap;
+        private readonly PdfPage page;
+        private Bitmap bitmap = null;
 
-        public PageHelper(IPageReader pageReader)
+        public PageHelper(PdfPage page)
         {
-            this.pageReader = pageReader;
+            this.page = page;
         }
 
         public void Dispose()
         {
-            pageReader.Dispose();
+            using (var p = page) //can't dispose directly...
+            {
+                bitmap?.Dispose();
+            }
         }
 
-        internal void Render(bool withWhiteBackground)
+        internal void Render(int ppi)
         {
+            bitmap?.Dispose();
+
+            int width = (int)(page.Width * ppi / 72);
+            int height = (int)(page.Height * ppi / 72);
             bitmap = new Bitmap(
-                pageReader.GetPageWidth(),
-                pageReader.GetPageHeight(),
+                width,
+                height,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb
             );
-
-            var rendered = withWhiteBackground ? pageReader.GetImage(OpaqueConverter.Instance) : pageReader.GetImage();
             var bitmapData = bitmap.LockBits(
                 new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 System.Drawing.Imaging.ImageLockMode.WriteOnly,
                 bitmap.PixelFormat
             );
-            var bitmapBytes = bitmapData.Scan0;
-
-            if (bitmap.Width * bitmap.Height * 4 != rendered.Length)
+            using (var pdfiumBitmap = new PdfiumBitmap(width, height, PdfLibCore.Enums.BitmapFormats.RGBA, bitmapData.Scan0, bitmapData.Stride))
             {
-                //this could have resulted in unsafe memory copies
-                throw new InvalidOperationException();
+                page.Render(pdfiumBitmap);
             }
-
-            Marshal.Copy(rendered, 0, bitmapBytes, rendered.Length);
             bitmap.UnlockBits(bitmapData);
         }
 
@@ -58,26 +56,6 @@ namespace NeosDocumentImport_PDFConverter
             }
 
             bitmap.Save(outputFile);
-        }
-
-
-        private class OpaqueConverter : IImageBytesConverter
-        {
-            internal static readonly OpaqueConverter Instance = new OpaqueConverter();
-
-            public byte[] Convert(byte[] bytes)
-            {
-                for (int i = 0; i < bytes.Length - 3; i += 4)
-                {
-                    int alpha = bytes[i + 3];
-                    int antiAlpha = 255 - alpha; //white background, premultiplied with alpha
-                    bytes[i] = (byte)(bytes[i] * alpha / 255 + antiAlpha);
-                    bytes[i + 1] = (byte)(bytes[i + 1] * alpha / 255 + antiAlpha);
-                    bytes[i + 2] = (byte)(bytes[i + 2] * alpha / 255 + antiAlpha);
-                    bytes[i + 3] = 255;
-                }
-                return bytes;
-            }
         }
     }
 }

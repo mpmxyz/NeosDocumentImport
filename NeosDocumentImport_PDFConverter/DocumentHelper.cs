@@ -1,7 +1,5 @@
-﻿using Docnet.Core.Models;
-using Docnet.Core;
+﻿using PdfLibCore;
 using System;
-using Docnet.Core.Readers;
 
 namespace NeosDocumentImport_PDFConverter
 {
@@ -10,26 +8,26 @@ namespace NeosDocumentImport_PDFConverter
     /// </summary>
     internal class DocumentHelper : IDisposable
     {
-        private readonly IDocReader doc;
+        private readonly PdfDocument doc;
+
         internal int pageCount
         {
-            get { return doc.GetPageCount(); }
+            get { return doc.Pages.Count; }
         }
 
-        public DocumentHelper(byte[] data, int ppi)
+        public DocumentHelper(byte[] data, string password = null)
         {
-            var dimensions = new PageDimensions(ppi / 72.0);
-            doc = DocLib.Instance.GetDocReader(data, dimensions);
+            doc = new PdfDocument(data, password: password);
         }
 
         internal PageHelper GetPage(int iPage)
         {
-            return new PageHelper(doc.GetPageReader(iPage - 1));
+            return new PageHelper(doc.Pages[iPage - 1]);
         }
 
         public void Dispose()
         {
-            doc.Dispose();
+            doc.Close();
         }
     }
 }

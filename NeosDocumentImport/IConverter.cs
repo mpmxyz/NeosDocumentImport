@@ -28,16 +28,18 @@ namespace NeosDocumentImport
     {
         public readonly string name;
         public readonly ConfigType type;
+        public readonly bool secret;
 
         /// <summary>
         /// Creates a configuration line in the import configurator
         /// </summary>
         /// <param name="name">Display name of the option</param>
         /// <param name="type">Type of the option</param>
-        public ConfigAttribute(string name, ConfigType type)
+        public ConfigAttribute(string name, ConfigType type, bool secret = false)
         {
             this.name = name;
             this.type = type;
+            this.secret = secret;
         }
     }
 

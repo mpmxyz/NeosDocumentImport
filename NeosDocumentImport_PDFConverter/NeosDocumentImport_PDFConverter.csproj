@@ -20,9 +20,12 @@
     <PostBuildEvent>
 copy "$(AssemblyName).dll" "$(NeosPath)\nml_mods\"
 copy "pdfium.dll" "$(NeosPath)\"
-copy "Docnet.Core.dll" "$(NeosPath)\nml_libs\"
+copy "PdfLibCore.dll" "$(NeosPath)\nml_libs\"
     </PostBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="PdfLibCore" Version="2.5.0" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="BaseX">
       <HintPath>$(NeosPath)\Neos_Data\Managed\BaseX.dll</HintPath>
@@ -39,8 +42,5 @@ copy "Docnet.Core.dll" "$(NeosPath)\nml_libs\"
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeosDocumentImport\NeosDocumentImport.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Docnet.Core" Version="2.3.1" />
   </ItemGroup>
 </Project>

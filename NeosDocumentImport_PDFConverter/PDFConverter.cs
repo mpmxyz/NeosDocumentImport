@@ -18,10 +18,10 @@ namespace NeosDocumentImport
         [Range(50, 300, "0")]
         [Config("PPI", ConfigType.Value)]
         private int ppi = 150;
-        [Config("Background", ConfigType.Value)]
-        private bool background = true;
         [Config("Pages", ConfigType.Value)]
         private string rawPages = null;
+        [Config("Password", ConfigType.Value, secret: true)]
+        private string password = null;
 
         private List<PageRange> pages = new List<PageRange>();
 
@@ -58,7 +58,7 @@ namespace NeosDocumentImport
 
             progress?.Update(filename, 0, "Loading Data...");
 
-            using (var helper = new DocumentHelper(data, ppi))
+            using (var helper = new DocumentHelper(data, password))
             {
                 var nPages = helper.pageCount;
                 var pageNumberLength = nPages.ToString().Length;
@@ -95,7 +95,7 @@ namespace NeosDocumentImport
                             {
                                 progress?.Update(progText(nDone), percentage(), "Drawing...");
 
-                                page.Render(background);
+                                page.Render(ppi);
 
                                 progress?.Update(progText(nDone), percentage(), "Saving...");
 

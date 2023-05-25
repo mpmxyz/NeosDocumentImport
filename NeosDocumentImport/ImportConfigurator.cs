@@ -13,12 +13,18 @@ namespace NeosDocumentImport
     /// </summary>
     internal static class ImportConfigurator
     {
-        private const string SLOT_NAME = "Document Import Configurator";
-        private const string PANEL_TITLE = "Document Import";
+        private const string SLOT_NAME_IMPORT = "Document Import Configurator";
+        private const string SLOT_NAME_USERSPACE_DIALOG = "Userspace Dialog";
+        private const string TITLE_IMPORT_PANEL = "Document Import";
+        private const string TITLE_SECRET_EDIT_PANEL = "Edit...";
         private const string LABEL_TEXT_IMPORT = "Import";
         private const string LABEL_TEXT_SKIP = "Skip conversion";
-        private const float PANEL_HEIGHT = 0.25f;
-        private static readonly float2 CANVAS_SIZE = new float2(200f, 108f);
+        private const string LABEL_SECRET_EDIT = "Edit";
+        private const string LABEL_USERSPACE_DIALOG_CLOSE = "OK";
+        private const float CONFIG_PANEL_HEIGHT = 0.25f;
+        private const float USERSPACE_PANEL_HEIGHT = 0.15f;
+        private static readonly float2 CONFIG_CANVAS_SIZE = new float2(200f, 108f);
+        private static readonly float2 USERSPACE_CANVAS_SIZE = new float2(200f, 52f);
         private const float SPACING = 4f;
         private const float BUTTON_HEIGHT = 24f;
 
@@ -32,16 +38,16 @@ namespace NeosDocumentImport
             IConverter converter)
         {
 
-            var slot = world.AddSlot(SLOT_NAME, false);
+            var slot = world.AddSlot(SLOT_NAME_IMPORT, false);
             slot.GlobalPosition = position;
             slot.GlobalRotation = rotation;
             slot.GlobalScale = scale;
 
             var panel = slot.AttachComponent<NeosCanvasPanel>();
-            panel.Panel.Title = PANEL_TITLE;
+            panel.Panel.Title = TITLE_IMPORT_PANEL;
             panel.Panel.AddCloseButton();
-            panel.CanvasSize = CANVAS_SIZE;
-            panel.CanvasScale = PANEL_HEIGHT / panel.CanvasSize.y;
+            panel.CanvasSize = CONFIG_CANVAS_SIZE;
+            panel.CanvasScale = CONFIG_PANEL_HEIGHT / panel.CanvasSize.y;
 
             var uiBuilder = new UIBuilder(panel.Canvas);
             uiBuilder.ScrollArea();
@@ -108,15 +114,83 @@ namespace NeosDocumentImport
                 {
                     if (attr is ConfigAttribute conf)
                     {
-                        var ifield = (IField)FieldBuilder(prop, conf)?.Invoke(null, new object[] { slot, converter, prop, onChange });
-
-                        if (ifield != null)
+                        if (conf.secret)
                         {
-                            SyncMemberEditorBuilder.Build(ifield, conf.name, prop, uiBuilder);
-                            break;
+                            BuildSecretButton(prop.Name, uiBuilder, (uiBuilder2) =>
+                            {
+                                var root = uiBuilder2.Root;
+                                BuildEditor(converter, root, prop, onChange, uiBuilder2, conf);
+                                var editor = root.GetComponentInChildren<TextEditor>();
+                                editor?.Focus();
+                            });
                         }
+                        else
+                        {
+                            BuildEditor(converter, slot, prop, onChange, uiBuilder, conf);
+                        }
+                        break;
                     }
                 }
+            }
+        }
+
+        private static void BuildSecretButton(string name, UIBuilder uiBuilder, Action<UIBuilder> createFields)
+        {
+            uiBuilder.PushStyle();
+            uiBuilder.Style.MinHeight = 24f;
+
+            uiBuilder.Panel();
+
+            Text text2 = uiBuilder.Text(name + ":", bestFit: true, Alignment.MiddleLeft, parseRTF: false);
+            text2.Color.Value = color.Black;
+            uiBuilder.CurrentRect.AnchorMax.Value = new float2(0.25f, 1f);
+
+            Button button = uiBuilder.Button(LABEL_SECRET_EDIT);
+            uiBuilder.CurrentRect.AnchorMin.Value = new float2(0.25f);
+            button.LocalPressed += (b, d) => {
+                CreateUserSpacePopup(TITLE_SECRET_EDIT_PANEL, createFields);
+            };
+
+            uiBuilder.NestOut();
+            uiBuilder.PopStyle();
+        }
+
+        private static void CreateUserSpacePopup(string title, Action<UIBuilder> createFields)
+        {
+            Userspace.UserspaceWorld.RunSynchronously(() =>
+            {
+                Slot slot = Userspace.UserspaceWorld.AddSlot(SLOT_NAME_USERSPACE_DIALOG, persistent: false);
+                var panel = slot.AttachComponent<NeosCanvasPanel>();
+                panel.Panel.Title = title;
+                panel.CanvasSize = USERSPACE_CANVAS_SIZE;
+                panel.CanvasScale = USERSPACE_PANEL_HEIGHT / panel.CanvasSize.y;
+
+                var uiBuilder = new UIBuilder(panel.Canvas);
+                uiBuilder.ScrollArea();
+                uiBuilder.VerticalLayout(SPACING);
+
+                createFields(uiBuilder);
+
+                uiBuilder.Style.FlexibleHeight = -1;
+                uiBuilder.Style.MinHeight = BUTTON_HEIGHT;
+                uiBuilder.Style.PreferredHeight = BUTTON_HEIGHT;
+
+                Button trigger = uiBuilder.Button(LABEL_USERSPACE_DIALOG_CLOSE);
+                trigger.LocalPressed += (button, data) =>
+                {
+                    slot.Destroy();
+                };
+
+                slot.PositionInFrontOfUser(float3.Backward);
+            });
+        }
+
+        private static void BuildEditor(object valueObj, Slot ifieldSlot, FieldInfo prop, Action onChange, UIBuilder uiBuilder, ConfigAttribute conf)
+        {
+            var ifield = (IField)FieldBuilder(prop, conf)?.Invoke(null, new object[] { ifieldSlot, valueObj, prop, onChange });
+            if (ifield != null)
+            {
+                SyncMemberEditorBuilder.Build(ifield, conf.name, prop, uiBuilder);
             }
         }
 

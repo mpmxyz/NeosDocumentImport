@@ -55,7 +55,7 @@ namespace NeosDocumentImport
                 catch (Exception e)
                 {
                     progress.ProgressFail(
-                        string.Format("Failed to convert file '{0}': {1}", filename, e.GetType().Name)
+                        string.Format("Failed to convert file '{0}': {1}", filename, e.Message)
                     );
                     throw e;
                 }
